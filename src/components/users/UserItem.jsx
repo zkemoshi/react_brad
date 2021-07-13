@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserItem = ({ avatar_url, login, html_url }) => {
+const UserItem = ({ user: { avatar_url, login, html_url } }) => {
   return (
     <div className='card text-center'>
       <img
