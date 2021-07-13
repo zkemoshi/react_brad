@@ -1,44 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import UserItem from './UserItem';
+import Spinner from '../layout/Spinner';
+import PropTypes from 'prop-types';
 
-export class Users extends Component {
-  state = {
-    users: [
-      {
-        id: 1,
-        login: 'mojombo',
-        avatar_url: 'https://avatars.githubusercontent.com/u/1?v=4',
-        html_url: 'https://github.com/mojombo',
-      },
-      {
-        id: 2,
-        login: 'defunkt',
-        avatar_url: 'https://avatars.githubusercontent.com/u/2?v=4',
-        html_url: 'https://github.com/defunkt',
-      },
-      {
-        id: 3,
-        login: 'pjhyett',
-        avatar_url: 'https://avatars.githubusercontent.com/u/3?v=4',
-        html_url: 'https://github.com/pjhyett',
-      },
-    ],
-  };
-  render() {
+const Users = ({ loading, users }) => {
+  if (loading) {
+    return <Spinner />;
+  } else {
     return (
-      <div style={userStyle}>
-        {this.state.users.map((user) => (
+      <div className='userStyle'>
+        {users.map((user) => (
           <UserItem key={user.id} user={user} />
         ))}
       </div>
     );
   }
-}
+};
 
-const userStyle = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3,1fr)',
-  gridGap: '1rem',
+Users.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  users: PropTypes.array.isRequired,
 };
 
 export default Users;

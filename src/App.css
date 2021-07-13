@@ -376,6 +376,13 @@ table th {
   margin-right: 0.6rem;
 }
 
+.userStyle {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  overflow: hidden;
+}
+
 /* Mobile Styles */
 @media (max-width: 700px) {
   .hide-sm {
@@ -410,5 +417,12 @@ table th {
   .navbar ul {
     text-align: center;
     justify-content: center;
+  }
+
+  .userStyle {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    overflow: hidden;
   }
 }
