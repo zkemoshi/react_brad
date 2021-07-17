@@ -13,11 +13,12 @@ class App extends Component {
   state = {
     users: [],
     user: {},
+    repos: [],
     loading: false,
     alert: null,
   };
 
-  // Search github users
+  // Search Github users
   handleSearchUsers = async (text) => {
     this.setState({ loading: true });
     const res = await axios.get(
@@ -31,15 +32,27 @@ class App extends Component {
   };
 
   // Get  single Github user
-  handleGetUsers = async (username) => {
+  handleGetUser = async (username) => {
     this.setState({ loading: true });
     const res = await axios.get(
       `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
 
-    console.log(res);
     this.setState({
       user: res.data,
+      loading: false,
+    });
+  };
+
+  // Get users repos
+  handleGetUserRepos = async (username) => {
+    this.setState({ loading: true });
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    this.setState({
+      repos: res.data,
       loading: false,
     });
   };
@@ -61,12 +74,12 @@ class App extends Component {
   };
 
   render() {
-    const { users, user, loading } = this.state;
+    const { users, user, repos, loading, alert } = this.state;
     return (
       <div className='App'>
         <Navbar title='Efd-Risiti' />
         <div className='container'>
-          <Alert alert={this.state.alert} />
+          <Alert alert={alert} />
           <Switch>
             <Route
               exact
@@ -91,8 +104,10 @@ class App extends Component {
                 <Fragment>
                   <User
                     {...props}
-                    getUser={this.handleGetUsers}
+                    getUser={this.handleGetUser}
+                    getUserRepos={this.handleGetUserRepos}
                     user={user}
+                    repos={repos}
                     loading={loading}
                   />
                 </Fragment>
